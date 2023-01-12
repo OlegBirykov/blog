@@ -17,6 +17,7 @@ class Post
     public $body;
 
     public $slug;
+
     public function __construct($title, $excerpt, $date, $body, $slug) {
         $this->title = $title;
         $this->excerpt = $excerpt;
@@ -24,6 +25,7 @@ class Post
         $this->body = $body;
         $this->slug = $slug;
     }
+
     public static function all() {
         return cache()->rememberForever('posts.all', function () {
             return collect(File::files(resource_path("posts")))
@@ -38,7 +40,18 @@ class Post
                 ->sortByDesc('date');
         });
     }
+
     public static function find($slug) {
         return static::all()->firstWhere('slug', $slug);
+    }
+
+    public static function findOrFail($slug) {
+        $post = static::find($slug);
+
+        if (!$post) {
+            throw new ModelNotFoundException();
+        }
+
+        return $post;
     }
 }
