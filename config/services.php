@@ -33,5 +33,6 @@ return [
 
     'mailopost' => [
         'key' => env('MAILOPOST_KEY'),
+        'group' => env('MAILOPOST_GROUP_ID'),
     ],
 ];
